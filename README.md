@@ -1,143 +1,77 @@
+🦾 ARIA – Accessible Routing & Intelligent Alerts
+ARIA is an assistive navigation system designed for blind and visually impaired users. It combines voice interaction, Google Maps routing, risk detection, and vehicle alerts to ensure safe walking navigation in real‑world environments.
+
+🚀 Features
+Voice Interface
+
+Listens to user commands (Speech‑to‑Text via Gemini).
+
+Speaks navigation instructions (Text‑to‑Speech via Gemini).
+
+Navigation
+
+Uses Google Maps Directions API to fetch walking routes.
+
+Provides step‑by‑step spoken instructions.
+
+Society Risk Alerts
+
+Collects inputs from nearby people (potholes, construction, crowds).
+
+Warns users about hazards in real time.
+
+Risk Engine
+
+Analyzes route steps + society alerts.
+
+Detects dangerous conditions and generates warnings.
+
+Vehicle Alerts
+
+Uses Firebase Cloud Messaging (FCM) to notify nearby vehicles about pedestrians and risks.
+
+🔑 API Keys
+Set your API keys in the code before running:
+
+python
 GOOGLE_MAPS_API_KEY = "GOOGLE_MAPS_KEY"
 GEMINI_API_KEY = "GOOGLE_GEMINI_KEY"
 FIREBASE_SERVER_KEY = "FIREBASE_KEY"
-"""
-Handles all voice interactions.
-Blind users never see a screen.
-"""
+📂 Project Structure
+Code
+voice_interface.py   # Handles listening & speaking
+maps_navigation.py   # Fetches walking routes
+society_inputs.py    # Collects alerts from people nearby
+risk_engine.py       # Analyzes risks
+vehicle_alerts.py    # Sends alerts to vehicles
+main.py              # Runs ARIA end-to-end
+▶️ Usage
+Run the main script:
 
-def listen_to_user():
-    """
-    Simulates voice input from a blind user.
-    In real version:
-    - Gemini Speech-to-Text
-    """
-    print("Listening to user voice...")
-    return "Navigate me to the nearest hospital"
+bash
+python main.py
+Example flow:
 
-def speak_to_user(message):
-    """
-    Converts text into speech.
-    In real version:
-    - Gemini Text-to-Speech
-    """
-    print(f"ARIA VOICE: {message}")
-"""
-Handles routing and walking instructions.
-"""
+Blind user says: “Navigate me to the nearest hospital”
 
-def get_walking_route(start_location, destination):
-    """
-    Calls Google Maps Directions API.
-    Returns step-by-step walking instructions.
-    """
+ARIA fetches walking route via Google Maps.
 
-    # Mock route steps for hackathon demo
-    route_steps = [
-        "Walk straight for 100 meters",
-        "Turn left at the signal",
-        "Cross the road carefully",
-        "Destination is on your right"
-    ]
+ARIA speaks each step aloud.
 
-    return route_steps
-"""
-Represents people present at the location
-who can prevent accidents.
-"""
+Society alerts are checked for risks.
 
-def get_society_risk_alerts(current_location):
-    """
-    Society inputs:
-    - People report potholes
-    - Parked vehicles
-    - Crowded crossings
-    """
+ARIA warns the user and notifies vehicles if needed.
 
-    # Example alerts gathered from nearby users
-    alerts = [
-        {
-            "type": "construction",
-            "severity": "high",
-            "message": "Road under construction ahead"
-        },
-        
-        {
-            "type": "crowd",
-            "severity": "medium",
-            "message": "Heavy pedestrian traffic"
-        }
-    ]
+User reaches destination safely.
 
-    return alerts
-"""
-Analyzes all inputs to detect danger.
-"""
+🛠️ Tech Stack
+Google Maps API – Routing & navigation
 
-def analyze_risks(route_step, society_alerts):
-    """
-    Combines route context + society alerts
-    """
+Gemini API – Speech‑to‑Text & Text‑to‑Speech
 
-    risk_messages = []
+Firebase Cloud Messaging (FCM) – Vehicle alerts
 
-    for alert in society_alerts:
-        if alert["severity"] == "high":
-            risk_messages.append(
-                f"Warning: {alert['message']}"
-            )
+Python – Core implementation
 
-    return risk_messages
-"""
-Notifies nearby vehicles about pedestrians and risks.
-"""
-
-def send_vehicle_alert(location, risk_type):
-    """
-    Uses Firebase Cloud Messaging (FCM)
-    """
-
-    print("Sending alert to vehicles:")
-    print(f"Location: {location}")
-    print(f"Risk: {risk_type}")
-    
-from voice_interface import listen_to_user, speak_to_user
-from maps_navigation import get_walking_route
-from society_inputs import get_society_risk_alerts
-from risk_engine import analyze_risks
-from vehicle_alerts import send_vehicle_alert
-
-def run_aria():
-    # 1. Blind user speaks
-    user_command = listen_to_user()
-    speak_to_user("Navigation started")
-
-    # 2. Define locations (mock)
-    start = "Current Location"
-    destination = "Nearest Hospital"
-
-    # 3. Get walking route
-    route = get_walking_route(start, destination)
-
-    # 4. Process each step
-    for step in route:
-        speak_to_user(step)
-
-        # 5. Get society alerts
-        society_alerts = get_society_risk_alerts(start)
-
-        # 6. Analyze risks
-        risks = analyze_risks(step, society_alerts)
-
-        # 7. Speak risks to blind user
-        for risk in risks:
-            speak_to_user(risk)
-
-            # 8. Alert vehicles
-            send_vehicle_alert(start, risk)
-
-    speak_to_user("You have reached your destination safely.")
-
-if __name__ == "__main__":
-    run_aria()
-on
+🌍 Vision
+ARIA aims to make urban navigation safer for blind and visually impaired users by combining AI, crowdsourced alerts, and real‑time communication with vehicles.
