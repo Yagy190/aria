@@ -1,7 +1,7 @@
 # config.py
 import os
 
-# ⚠️ SET YOUR API KEYS HERE ⚠️
+#  SET YOUR API KEYS HERE 
 GOOGLE_MAPS_API_KEY = os.getenv("GOOGLE_MAPS_API_KEY", "YOUR_GOOGLE_MAPS_KEY")
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "YOUR_GEMINI_KEY")
 FIREBASE_SERVER_KEY = os.getenv("FIREBASE_SERVER_KEY", "YOUR_FIREBASE_KEY")
@@ -28,23 +28,23 @@ class VoiceInterface:
     def listen(self, timeout=5):
         """Listen for user command"""
         try:
-            print("🔴 Listening... (speak now)")
+            print(" Listening... (speak now)")
             with self.microphone as source:
                 self.recognizer.adjust_for_ambient_noise(source)
                 audio = self.recognizer.listen(source, timeout=timeout)
             
             command = self.gemini_stt.transcribe(audio)
-            print(f"👤 You said: {command}")
+            print(f" You said: {command}")
             return command.lower()
         except sr.WaitTimeoutError:
             return None
         except Exception as e:
-            print(f"❌ Voice recognition error: {e}")
+            print(f"Voice recognition error: {e}")
             return None
     
     def speak(self, text):
         """Speak text aloud"""
-        print(f"🔊 ARIA: {text}")
+        print(f" ARIA: {text}")
         self.gemini_tts.speak(text)
     
     def continuous_listen(self, callback):
@@ -196,12 +196,12 @@ class RiskEngine:
     
     def generate_warning(self, alert):
         warnings = {
-            "pothole": "⚠️ Large pothole ahead! Step carefully to your left.",
-            "construction": "🔨 Construction zone ahead. Walk slowly and listen for workers.",
-            "crowd": "👥 Heavy crowd ahead. Stay to the right and proceed slowly.",
-            "obstacle": "🚧 Major obstacle ahead. Stop and assess with cane first."
+            "pothole": " Large pothole ahead! Step carefully to your left.",
+            "construction": " Construction zone ahead. Walk slowly and listen for workers.",
+            "crowd": " Heavy crowd ahead. Stay to the right and proceed slowly.",
+            "obstacle": " Major obstacle ahead. Stop and assess with cane first."
         }
-        return warnings.get(alert["hazard_type"], f"⚠️ {alert['description']}")
+        return warnings.get(alert["hazard_type"], f" {alert['description']}")
 
 # vehicle_alerts.py
 import requests
@@ -214,7 +214,7 @@ class VehicleAlerts:
     def send_alert(self, pedestrian_location, risk_info):
         """Send alert to nearby vehicles via FCM"""
         if not self.server_key or self.server_key == "YOUR_FIREBASE_KEY":
-            print("📱 [SIMULATED] FCM alert sent to nearby vehicles")
+            print(" [SIMULATED] FCM alert sent to nearby vehicles")
             print(f"   Location: {pedestrian_location}")
             print(f"   Risk: {risk_info}")
             return True
